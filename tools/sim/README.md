@@ -2,11 +2,13 @@
 
 These tools build the terminal core on the host for the user guide, keymap documentation, and regression tests. They also regenerate the firmware's font and About pages.
 
-From the repository root, install Pillow and run the retained firmware tests:
+Install Python 3.11 or newer, a host C compiler, Git, and CMake. Run these commands from the repository root.
 
 ```sh
-python3 -m pip install -r tools/sim/requirements.txt
-python3 -m unittest discover -s tools/sim
+python3 -m venv ../liz4270-test-venv
+. ../liz4270-test-venv/bin/activate
+python -m pip install -r tools/sim/requirements.txt
+python -m unittest discover -s tools/sim
 ```
 
 | Tool | Use |

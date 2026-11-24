@@ -3,14 +3,21 @@
 
 name: firmware
 
-# Builds the UF2 for firmware pull requests and manual runs. A version tag
-# also builds the user guide and publishes the release.
+# Builds the UF2 and runs the host tests on relevant pull requests.
+# A version tag also builds the user guide PDFs and publishes the release.
 on:
   pull_request:
     branches: [main]
     types: [opened, synchronize, reopened, ready_for_review]
     paths:
       - firmware/**
+      - tools/sim/**
+      - tools/manual/**
+      - docs/manual/**
+      - docs/keymaps/**
+      - LICENSE
+      - LICENSES/**
+      - NOTICE
       - .github/workflows/firmware.yml
   push:
     tags: ['v[0-9]+.[0-9]+.[0-9]+']
@@ -94,8 +101,23 @@ jobs:
           if-no-files-found: error
           overwrite: true
 
+  simulator:
+    if: (github.event_name != 'pull_request' || !github.event.pull_request.draft) && (github.event_name != 'push' || !github.event.deleted)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Run the simulator tests
+        run: |
+          python3 -m venv "$RUNNER_TEMP/sim-venv"
+          "$RUNNER_TEMP/sim-venv/bin/python" -m pip install -r tools/sim/requirements.txt
+          "$RUNNER_TEMP/sim-venv/bin/python" -m unittest discover -s tools/sim
+
   manual:
-    if: github.event_name == 'push' && !github.event.deleted
+    if: (github.event_name != 'pull_request' || !github.event.pull_request.draft) && (github.event_name != 'push' || !github.event.deleted)
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     env:
@@ -113,6 +135,7 @@ jobs:
           persist-credentials: false
 
       - name: Check the release tag
+        if: github.event_name == 'push'
         id: tag
         run: |
           if [[ $(git cat-file -t "$GITHUB_REF") != tag ]]; then
@@ -138,11 +161,17 @@ jobs:
           python3 -m venv "$RUNNER_TEMP/manual-venv"
           "$RUNNER_TEMP/manual-venv/bin/python" -m pip install -r "$oec/requirements.txt" -r tools/sim/requirements.txt
 
+      - name: Run the user guide tests
+        run: |
+          PYTHONPATH="$RUNNER_TEMP/oec-tcp" "$RUNNER_TEMP/manual-venv/bin/python" -m unittest discover -s tools/manual
+
       - name: Build the US Letter and A4 user guides
+        if: github.event_name == 'push'
         run: |
           PYTHONPATH="$RUNNER_TEMP/oec-tcp" "$RUNNER_TEMP/manual-venv/bin/python" tools/manual/build.py --release
 
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: github.event_name == 'push'
         with:
           name: liz4270-user-guides
           path: build/manual/liz4270-users-guide-*.pdf
@@ -152,7 +181,7 @@ jobs:
 
   publish:
     if: github.event_name == 'push' && !github.event.deleted
-    needs: [build, manual]
+    needs: [build, simulator, manual]
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     permissions:

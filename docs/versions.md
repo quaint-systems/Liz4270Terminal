@@ -41,7 +41,7 @@ The splash, the console's banner, `picotool info -a` and SetUp's About page (F10
    git push origin vX.Y.Z
    ```
 
-3. GitHub Actions builds the firmware and both User's Guide PDFs from that tag. Once both jobs pass, it publishes a [GitHub Release](https://github.com/quaint-systems/Liz4270Terminal/releases) with generated release notes and these downloads.
+3. GitHub Actions builds the firmware and both User’s Guide PDFs from that tag. Once the builds and host tests pass, it publishes a [GitHub Release](https://github.com/quaint-systems/Liz4270Terminal/releases) with generated release notes and these downloads.
 
    - `liz4270-vX.Y.Z.uf2`, the firmware image for BOOTSEL.
    - `liz4270-users-guide-LZ01-4270-NN-letter.pdf` and `liz4270-users-guide-LZ01-4270-NN-a4.pdf`, the US Letter and A4 guides. `NN` is the edition declared in `docs/manual/edition.toml`. Until an edition is declared, the workflow attaches draft PDFs marked `XX`.
