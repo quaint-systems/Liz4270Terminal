@@ -18,7 +18,7 @@ class TestChapter1(unittest.TestCase):
             cls.text = ' '.join(stream.read().replace('~', ' ').split())  # ~ is a space no line breaks at
 
     def test_it_is_a_3483_v_in_cut_mode(self):
-        # CLAUDE.md, "What the device is": it impersonates an IBM 3483-V in CUT mode.
+        # What the device is: it impersonates an IBM 3483-V in CUT mode.
         self.assertIn('an IBM 3483-V display station in CUT mode', self.text)
 
     def test_it_needs_a_3174_or_oec(self):

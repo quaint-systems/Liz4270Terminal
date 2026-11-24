@@ -5,8 +5,7 @@
 // nothing else does. It's off at power-on and never saved, as on the 3483-V
 // (captured Oct 10: captures/README.md, "2026-10-10 session, later"). How it
 // looks is the settings' (settings.h: Style, Color and Follows cursor) and the
-// renderer's (render.c). The spec is
-// docs/superpowers/specs/2026-10-10-rule-line-design.md.
+// renderer's (render.c).
 //
 // Plain C11, like the rest of the core. The firmware keeps one in setup.c and
 // changes it from core 0's main loop; the renderer reads at as each frame

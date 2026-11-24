@@ -1,7 +1,7 @@
 # Copyright (c) 2026, CoffeeMuse
 # SPDX-License-Identifier: ISC
 
-"""The board's layout (plan 2, docs/superpowers/plans/2026-10-09-unified-board-layout.md): the outline, then each
+"""The board's layout: the outline, then each
 block's places and scripted copper from its layout_*.py. Python 3.9: pcb_build.py imports it in KiCad's Python.
 
 Every block's place() runs first, in BLOCKS' order, so that any block's route() may name any part's pads."""

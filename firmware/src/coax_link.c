@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: ISC
 
 // The coax link on core 1: recv_term into a DMA ring, the terminal core, and
-// its answers through xmit_serial (docs/superpowers/specs/2026-10-03-coax-link-design.md).
+// its answers through xmit_serial.
 //
 // The PIO and DMA setup follows coax-tcp interface3's coax.c and tap.c (ISC;
 // the notices are in firmware/vendor/coax-tcp/LICENSE, the record in NOTICE).

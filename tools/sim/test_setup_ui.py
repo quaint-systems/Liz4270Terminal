@@ -1,8 +1,7 @@
 # Copyright (c) 2026, CoffeeMuse
 # SPDX-License-Identifier: ISC
 
-"""SetUp's screens and keys (firmware/core/setup_ui.c, #102), against the spec
-(docs/superpowers/specs/2026-10-11-setup-screen-design.md) and the 3483-V as captured on Oct 6 and 11
+"""SetUp's screens and keys (firmware/core/setup_ui.c, #102), against the 3483-V as captured on Oct 6 and 11
 (captures/README.md)."""
 
 import ctypes

@@ -1,8 +1,7 @@
 # Copyright (c) 2026, CoffeeMuse
 # SPDX-License-Identifier: ISC
 
-"""Every part kind on the board: symbol, footprint, value, MPN and LCSC number
-(docs/superpowers/specs/2026-10-08-unified-board-design.md, "Assembly and sourcing").
+"""Every part kind on the board: symbol, footprint, value, MPN and LCSC number.
 
 Checked on lcsc.com and JLC's library on Oct 8, 2026. Each part's comment gives its stock on the day as
 LCSC / JLC; one figure means the two were close. Stock moves daily: plan 2 rechecks it at order time.

@@ -1,7 +1,7 @@
 # Copyright (c) 2026, CoffeeMuse
 # SPDX-License-Identifier: ISC
 
-"""The schematic against its spec (docs/superpowers/specs/2026-10-08-unified-board-design.md, #90).
+"""The schematic against the board's design (#90).
 
 kicad-cli reads hardware/board/liz4270.kicad_sch as KiCad will and reports the netlist and ERC. The tables
 here restate the spec on purpose instead of importing the sheets: a slip in a sheet must not slip past its test.

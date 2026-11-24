@@ -5,7 +5,7 @@
 
 The file is JSON, so it can't hold a comment: its copyright and license are fields. The regen buffer and the
 EAB plane are hex, one string for each 80 bytes, the status line (0-79) first, then the screen's rows, so a
-diff shows which row changed. docs/superpowers/specs/2026-10-14-user-manual-design.md, "Screens", is the design.
+diff shows which row changed.
 """
 
 import json

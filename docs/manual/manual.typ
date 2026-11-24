@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: CC-BY-4.0
 
 // The Liz4270 Display Station User's Guide (#136). Built by tools/manual/build.py, which draws the screens
-// and walks SetUp first; docs/superpowers/specs/2026-10-14-user-manual-design.md is its design.
+// and walks SetUp first.
 
 #import "style.typ": *
 

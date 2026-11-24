@@ -107,7 +107,7 @@ class TestLibrary(unittest.TestCase):
                 self.assertTrue(cx0 <= x - d / 2 and x + d / 2 <= cx1 and cy0 <= y - d / 2 and y + d / 2 <= cy1)
 
     def test_every_footprint_of_ours_is_in_notice(self):
-        # CLAUDE.md: every reused file is recorded in NOTICE, which is also the clean-room audit trail
+        # Every reused file is recorded in NOTICE, which is also the clean-room audit trail
         with open(os.path.join(paths.ROOT, 'NOTICE'), encoding='utf-8') as stream:
             notice = stream.read()
         for name in sorted(os.listdir(os.path.join(paths.LIB, 'liz4270.pretty'))):

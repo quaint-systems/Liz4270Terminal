@@ -1,8 +1,7 @@
 # Copyright (c) 2026, CoffeeMuse
 # SPDX-License-Identifier: ISC
 
-"""The board against its spec (docs/superpowers/specs/2026-10-08-unified-board-design.md, #90) and plan 2's floorplan
-(docs/superpowers/plans/2026-10-09-unified-board-layout.md).
+"""The board against its design (#90) and its floorplan.
 
 The board file is read as KiCad wrote it (pcbfile) and checked by kicad-cli's DRC with schematic parity. As in
 test_board.py, the tables here restate the spec and the floorplan on purpose instead of importing layout.py: a slip in

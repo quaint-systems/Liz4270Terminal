@@ -6,8 +6,7 @@
 // (term_key), as the controller's POLLs expect them. Which key sends what is
 // a keymap's business (keymap.h). This keeps the controller's Shift and Alt
 // in step with the PC's, sends releases, repeats the held key, and keeps room
-// in the queue for releases. Spec:
-// docs/superpowers/specs/2026-10-05-usb-keyboard-map-design.md.
+// in the queue for releases.
 //
 // Plain C11 with no Pico headers, like the rest of the core. The firmware
 // calls it all from core 0 (usb_host.c), where term_key is safe.

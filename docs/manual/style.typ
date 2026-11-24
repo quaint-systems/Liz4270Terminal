@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: CC-BY-4.0
 
 // The user manual's template (#136): an homage to a 1990s IBM publication, in IBM Plex.
-// docs/superpowers/specs/2026-10-14-user-manual-design.md, "The look", has the numbers and why.
 
 // ---- What tools/manual/build.py passes in ----
 

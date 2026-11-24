@@ -1,8 +1,7 @@
 # Copyright (c) 2026, CoffeeMuse
 # SPDX-License-Identifier: ISC
 
-"""The password's hash, the keys a password takes, and the lock (firmware/core/lock.c, #122), against the spec
-(docs/superpowers/specs/2026-10-13-password-lock-design.md) and the 3483-V as captured on Oct 13
+"""The password's hash, the keys a password takes, and the lock (firmware/core/lock.c, #122), against the 3483-V as captured on Oct 13
 (captures/README.md)."""
 
 import unittest

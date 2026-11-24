@@ -299,7 +299,7 @@ class TestFeatureError(CoreTest):
     20261012-190735-feature-error.jsonl and 20261013-062709-feature-error.jsonl.
     Decided Oct 13: a key pending under the bit goes with it on POLL_ACK, as
     on the 3483-V. The tests after the captured ones are the defaults no
-    capture shows (docs/superpowers/specs/2026-10-18-feature-error-design.md).
+    capture shows.
     """
 
     def setUp(self):

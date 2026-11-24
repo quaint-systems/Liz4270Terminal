@@ -4,7 +4,6 @@
 // The 3483-V's Lock sessions and its password (#122): Password Set keeps a
 // password, typed twice, and the lock hides the host's screen until it's
 // typed at a prompt on the status line (captured Oct 13, captures/README.md).
-// Spec: docs/superpowers/specs/2026-10-13-password-lock-design.md.
 //
 // Plain C11, like the rest of the core, so tools/sim tests it through ctypes.
 
