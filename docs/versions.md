@@ -41,4 +41,10 @@ The splash, the console's banner, `picotool info -a` and SetUp's About page (F10
    git push origin vX.Y.Z
    ```
 
-3. A build at the tag, from a clean checkout, reads `X.Y.Z`.
+3. GitHub Actions builds the firmware and both User's Guide PDFs from that tag. Once both jobs pass, it publishes a [GitHub Release](https://github.com/quaint-systems/Liz4270Terminal/releases) with generated release notes and these downloads.
+
+   - `liz4270-vX.Y.Z.uf2`, the firmware image for BOOTSEL.
+   - `liz4270-users-guide-LZ01-4270-NN-letter.pdf` and `liz4270-users-guide-LZ01-4270-NN-a4.pdf`, the US Letter and A4 guides. `NN` is the edition declared in `docs/manual/edition.toml`. Until an edition is declared, the workflow attaches draft PDFs marked `XX`.
+   - `SHA256SUMS`, the SHA-256 checksums for the firmware and PDFs.
+
+The tag must be annotated and match the version in `firmware/CMakeLists.txt`. A manual build failure or a stale declared edition blocks publication. For a transient build or upload failure, rerun the failed jobs in GitHub Actions. Rerun all jobs if the build artifacts have expired.

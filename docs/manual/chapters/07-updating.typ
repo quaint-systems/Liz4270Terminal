@@ -14,14 +14,13 @@ from a computer over a USB cable. It needs no software on the computer.
 - *Find the version you have.* The splash screen shows it when you switch on, and so does SetUp's About page
   (@about).#ix("firmware version")
 - *Get the new firmware.* Each release is published at #raw("github.com/quaint-systems/Liz4270Terminal/releases"),
-  with what changed since the last. The firmware is the file whose name ends in #raw(".uf2")#ix[UF2 file].
+  with what changed since the last. Download #raw("liz4270-vX.Y.Z.uf2")#ix[UF2 file], where #raw("X.Y.Z")
+  is the version you want. To verify the download, compare its SHA-256 checksum with the one in #raw("SHA256SUMS")
+  for that file.
 - *Find a USB cable* from the computer to the display station's USB-C connector. It has to carry data: a cable
   made only for charging won't do.
 - *Sign off from the host.* An update restarts the display station, which ends its host session, as switching
   it off does (@switching-off).
-
-#to-confirm[The firmware file's name in a release, and whether a release gives a checksum to check the
-download against.]
 
 == Updating <update-steps>
 
