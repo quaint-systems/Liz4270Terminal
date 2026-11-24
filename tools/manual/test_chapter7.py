@@ -35,10 +35,13 @@ class TestChapter7(unittest.TestCase):
     def test_the_version_is_checked_on_the_splash(self):
         self.assertIn('the splash screen shows the new version', self.text)
 
-    def test_what_isnt_proven_or_decided_stays_open(self):
-        # The release's file name and checksum wait for the release's decisions, and the settings surviving
-        # an update for a run on the Liz4270 board.
-        self.assertEqual(self.text.count('#to-confirm['), 2)
+    def test_the_release_lists_the_firmware_file_and_checksum(self):
+        self.assertIn('#raw("liz4270-vX.Y.Z.uf2")', self.text)
+        self.assertIn('#raw("SHA256SUMS")', self.text)
+
+    def test_settings_survival_is_still_to_be_confirmed(self):
+        self.assertIn('#to-confirm[That a display station with saved settings and a password still has both',
+                      self.text)
 
 
 if __name__ == '__main__':

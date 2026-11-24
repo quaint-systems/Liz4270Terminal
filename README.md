@@ -2,6 +2,7 @@
 
 Liz4270 is an open-source IBM 3270 CUT terminal. Its RP2350 firmware presents an IBM 3483-V to a controller over coax, drives DVI video over HDMI, and accepts a USB keyboard.
 
+- [Firmware downloads and User's Guide PDFs](https://github.com/quaint-systems/Liz4270Terminal/releases)
 - [Revision A board, schematics, and manufacturing files](hardware/board/README.md)
 - [Enclosure source, printable parts, and assembly](hardware/case/README.md)
 - [Display Station User's Guide source](docs/manual/manual.typ) and [USB keyboard map](docs/keymaps/us104.md)
