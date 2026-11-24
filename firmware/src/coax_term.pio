@@ -1,0 +1,87 @@
+; Copyright (c) 2026, CoffeeMuse
+; SPDX-License-Identifier: ISC
+
+; recv_term: recv_tap, held off while this terminal transmits
+;
+; recv_tap from firmware/vendor/coax-tcp/coax.pio (hanshuebner/coax-tcp
+; interface3/firmware/coax.pio @ 78a0040b4f42a689128f8b34371459e5c430cee1),
+; with one instruction changed for Liz4270: the debug `set pins, 0b00` that
+; follows start1's edge wait is `wait 0 pin 2` here. Pin 2 of the in group is
+; TX_ACTIVE (RX + 2). The receiver hears our own driver on the line, so
+; without the gate every answer we send would come back as a frame.
+;
+; Every candidate edge passes the gate two cycles after the edge. While we
+; transmit, the first edge of our own frame stops the decoder there until
+; TX_ACTIVE falls, and its checks then see the idle line and reject it. With
+; TX_ACTIVE low the wait takes one cycle, as the set did, so the decoder keeps
+; recv_tap's timing to the cycle. At start0 the gate would not hold, and before
+; start1's wait it would cost a cycle on every rejected quiesce edge
+; (docs/superpowers/specs/2026-10-03-coax-link-design.md, "Decisions").
+;
+; Copyright (c) 2019, Andrew Kay
+; Copyright (c) 2025, Hans Hübner
+;
+; Permission to use, copy, modify, and/or distribute this software for any
+; purpose with or without fee is hereby granted, provided that the above
+; copyright notice and this permission notice appear in all copies.
+;
+; THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+; WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+; MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+; ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+; WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+; ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+; OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+;
+; Pin mapping:
+;   in_base  = RX pin (pin 2 of the group is TX_ACTIVE)
+;   jmp_pin  = RX pin
+;   set_base = debug pins (set count 0: the remaining debug sets do nothing)
+
+.program recv_term
+.wrap_target
+start0:
+    wait 1 pin 0              ; wait for quiescent bit
+start1:
+    wait 0 pin 0
+    set pins, 0b01
+    wait 0 pin 2              ; Liz4270: hold while our TX_ACTIVE is high
+    jmp pin, start1    [3]    ; expect zero half bit
+    jmp pin, start1    [5]    ; expect zero half bit
+    jmp pin, start1    [5]    ; expect zero half bit
+    jmp pin, vio10     [5]
+    jmp start0
+vio10:
+    jmp pin, vio11     [4]
+    jmp start0
+vio11:
+    jmp pin, vio12
+    jmp start0
+vio12:
+    set pins, 0b11
+    set x, 9                  ; 10 bits to read
+    ; wait for the beginning of the sync bit
+    wait 0 pin 0
+    ; we are 1/4 bit into the sync/end bit
+word_loop:
+    jmp pin, end_frame
+    ; sync on the rising edge of the sync bit
+    wait 1 pin 0       [12]
+    ; we are 3/4 bits into the first data bit
+bit_loop:
+    in pins, 1                ; read bit, wait for next
+    set pins, 0b10
+    set pins, 0b11     [8]
+    jmp x--, bit_loop
+    ; looking at the parity bit now
+    mov x, pins        [3]
+    set x, 9                  ; 10 bits to read
+    jmp word_loop              ; looking at 1/4 of sync/end again
+end_frame:
+    set x, 0
+    mov isr, ~x
+    push
+wait_idle:
+    jmp pin, wait_idle
+    set pins, 0b00
+.wrap

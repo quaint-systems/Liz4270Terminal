@@ -1,0 +1,14 @@
+(version 1)
+(rule "Coax line side: 1.5 mm from all other copper (spec, Coax front end)"
+	(condition "A.NetClass == 'CoaxLine' && B.NetClass != 'CoaxLine'")
+	(constraint clearance (min 1.5mm)))
+(rule "Exposed pads' thermal vias join the pours solid: no room for spokes inside the pad"
+	(condition "A.Type == 'Pad' && A.Pad_Type == 'Through-hole' && (A.memberOfFootprint('U1') || A.memberOfFootprint('U8') || A.memberOfFootprint('U14'))")
+	(constraint zone_connection solid))
+(rule "USB-A's ground pins join In1 solid: each port's pair returns through them, and port 2's D+ passes over pin 4"
+	(layer "In1.Cu")
+	(condition "A.Type == 'Pad' && A.memberOfFootprint('J5') && (A.Pad_Number == '4' || A.Pad_Number == '8')")
+	(constraint zone_connection solid))
+(rule "A through-hole pin's thermal relief: one spoke will do where tracks crowd the others"
+	(condition "A.Type == 'Pad' && A.Pad_Type == 'Through-hole'")
+	(constraint min_resolved_spokes 1))

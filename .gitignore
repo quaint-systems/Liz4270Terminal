@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+.DS_Store
+firmware/build/
+.vscode/
+tools/sim/build/
+tools/sim/out/
+hardware/board/*-backups/
+hardware/board/*.kicad_prl
+hardware/board/fp-info-cache
+hardware/board/~*.lck
+hardware/board/#auto_saved_files#
+hardware/board/export/*.step
+hardware/board/export/*.stl
+hardware/board/.history/
+build/manual/

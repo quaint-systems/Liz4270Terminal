@@ -1,0 +1,3 @@
+# The PNG renderer and manual build use Pillow.
+#   python -m pip install -r tools/sim/requirements.txt
+pillow>=10,<13

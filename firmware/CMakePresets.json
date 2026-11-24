@@ -1,0 +1,28 @@
+{
+  "version": 6,
+  "cmakeMinimumRequired": { "major": 3, "minor": 25, "patch": 0 },
+  "configurePresets": [
+    {
+      "name": "base",
+      "hidden": true,
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Release" }
+    },
+    {
+      "name": "liz4270",
+      "inherits": "base",
+      "displayName": "Liz4270 firmware",
+      "cacheVariables": { "PICO_BOARD": "adafruit_fruit_jam" }
+    },
+    {
+      "name": "fruit-jam",
+      "inherits": "liz4270",
+      "displayName": "Legacy Fruit Jam preset"
+    }
+  ],
+  "buildPresets": [
+    { "name": "liz4270", "configurePreset": "liz4270" },
+    { "name": "fruit-jam", "configurePreset": "fruit-jam" }
+  ]
+}

@@ -1,0 +1,519 @@
+Liz4270
+Copyright (c) 2026, CoffeeMuse
+
+Firmware and software in this repository are licensed under the ISC license;
+see LICENSE. Hardware design files in hardware/ are licensed under CERN-OHL-P
+v2 (see hardware/LICENSE). The user
+manual's sources in docs/manual/ are licensed under CC BY 4.0 (see
+docs/manual/LICENSE).
+
+This file records every file or design reused from another project: where it
+came from, the commit it was taken from, and the copyright and license notice
+that travels with it. Scan codes and handshake details come from observations and traces of a real 3483-V. LICENSES/ holds the text of each license
+the firmware binary is under, as SetUp's About pages show them (#126).
+
+
+Reused files
+------------
+
+docs/manual/fonts/IBMPlexSerif-Regular.otf, -Italic.otf, -Bold.otf and
+-BoldItalic.otf; IBMPlexSans-Light.otf, -Regular.otf, -Medium.otf,
+-SemiBold.otf and -Bold.otf; IBMPlexMono-Regular.otf; LICENSE.txt
+  Source:    IBM/plex releases, each zip's fonts/complete/otf/ and LICENSE.txt:
+             @ibm/plex-serif@2.0.0 (ibm-plex-serif.zip, sha256
+             c006b095c47b919c6c8d78319e9e628745033f5db94507c1c9dfe4b35dd51f1e),
+             @ibm/plex-sans@1.1.0 (ibm-plex-sans.zip, sha256
+             fb365d910566e6d199cc2c15579a7dd9a267128e18431a394ed81f1970c69200),
+             @ibm/plex-mono@2.5.0 (ibm-plex-mono.zip, sha256
+             6d23f01257663d8cc49a0d64c22ced630b79e0e2a0ac08a0da86e9a38bbc481c)
+  License:   SIL Open Font License 1.1, with the Reserved Font Name "Plex"
+             (LICENSE.txt, the same in all three releases)
+  Copyright: Copyright © 2017 IBM Corp. with Reserved Font Name "Plex"
+  Changes:   none to the fonts, which keep their names; git keeps
+             LICENSE.txt's lines with LF endings. The user manual's PDFs
+             (tools/manual/build.py) embed subsets of these fonts, as the OFL
+             allows a document to; nothing of them goes into the firmware.
+
+firmware/vendor/coax-tcp/coax.pio
+  Source:    hanshuebner/coax-tcp interface3/firmware/coax.pio
+             @ 78a0040b4f42a689128f8b34371459e5c430cee1
+  License:   ISC
+  Copyright: Copyright (c) 2019, Andrew Kay   (repository LICENSE)
+             Copyright (c) 2025, Hans Hübner  (interface3/README.md)
+  Changes:   none. Both notices are in firmware/vendor/coax-tcp/LICENSE.
+             firmware/src/coax_link.h restates the PIO clock that goes with
+             these programs (PIO_FREQ = 12 x 2358700, from
+             interface3/firmware/coax.h).
+
+firmware/core/manchester.c
+  Source:    hanshuebner/coax-tcp interface3/firmware/coax.c, function
+             coax_manchester_encode
+             @ 78a0040b4f42a689128f8b34371459e5c430cee1
+  License:   ISC
+  Copyright: Copyright (c) 2019, Andrew Kay   (repository LICENSE)
+             Copyright (c) 2025, Hans Hübner  (interface3/README.md)
+  Changes:   none to the function. The notices are at the top of the file
+             and in firmware/vendor/coax-tcp/LICENSE.
+
+firmware/src/coax_term.pio
+  Source:    hanshuebner/coax-tcp interface3/firmware/coax.pio, program
+             recv_tap @ 78a0040b4f42a689128f8b34371459e5c430cee1
+  License:   ISC
+  Copyright: Copyright (c) 2019, Andrew Kay   (repository LICENSE)
+             Copyright (c) 2025, Hans Hübner  (interface3/README.md)
+  Changes:   renamed recv_term, with one instruction changed: the debug
+             "set pins, 0b00" after start1's edge wait is "wait 0 pin 2",
+             which holds the decoder while TX_ACTIVE is high (#12). The
+             notices are at the top of the file and in
+             firmware/vendor/coax-tcp/LICENSE.
+
+firmware/src/coax_link.c (design and setup lines)
+  Source:    hanshuebner/coax-tcp interface3/firmware/coax.c (the state
+             machine settings in coax_init) and tap.c (the recv_tap setup in
+             tap_start, and its endless DMA ring read behind the channel's
+             write address) @ 78a0040b4f42a689128f8b34371459e5c430cee1
+  License:   ISC
+  Copyright: Copyright (c) 2019, Andrew Kay   (repository LICENSE)
+             Copyright (c) 2025, Hans Hübner  (interface3/README.md)
+  Changes:   init_receive and init_transmit follow those settings, some
+             lines with their comments, for one terminal port on Liz4270's
+             own pins and PIO blocks; the ring holds 32-bit words. The rest
+             of the file (the core-1 loop, the answer path, the counters and
+             the reset mailbox) is new. The notices are in
+             firmware/vendor/coax-tcp/LICENSE.
+
+firmware/pico_sdk_import.cmake
+  Source:    raspberrypi/pico-sdk external/pico_sdk_import.cmake @ 2.3.1
+  License:   BSD-3-Clause
+  Copyright: Copyright 2020 (c) 2020 Raspberry Pi (Trading) Ltd.
+  Changes:   none. The notice is in the file.
+
+tools/sim/fonts/3270-Regular.ttf
+  Source:    rbanffy/3270font release v3.0.1 (3270_fonts_d916271.zip,
+             sha256 623fb815b16d6c4940b5014a21c5474ef6cddb02c325d03f153341b676b4cffa;
+             tag v3.0.1 @ 9aec667cb514472d37bf5fa202259c29fa587dc5)
+  License:   SIL Open Font License 1.1. Upstream offers the font under
+             BSD-3-Clause (the release's LICENSE.txt) and under the OFL 1.1
+             (the TTF's own name table; LICENSE.txt says the source is
+             optionally OFL). This subset is taken and redistributed under the
+             OFL alone, as the OFL requires of a Modified Version: OFL.txt is
+             the OFL 1.1 text with the font's copyright line, and LICENSE.txt
+             is kept verbatim beside it for provenance.
+  Copyright: Copyright 2022 The 3270font Authors (https://github.com/rbanffy/3270font)
+             Copyright (c) 2011-2022, Ricardo Banffy.
+             Copyright (c) 1993-2011, Paul Mattes.
+             Copyright (c) 2004-2005, Don Russell.
+             Copyright (c) 2004, Dick Altenbern.
+             Copyright (c) 1990, Jeff Sparkes.
+             Copyright (c) 1989, Georgia Tech Research Corporation (GTRC), Atlanta, GA 30332.
+             (name table: "Copyright 2011-2021 The 3270font Project Authors
+             (https://github.com/rbanffy/3270font)")
+  Changes:   subset with fontTools to the characters tools/sim/display_codes.py
+             uses (tools/sim/subset_font.py). Upstream declares no Reserved
+             Font Name, so the subset keeps the font's names. It leaves out
+             the private use area, where the font's logo glyphs (CC BY-SA 3.0
+             or LGPL-3.0, per LICENSE.txt) live.
+             Nothing of it goes into the firmware; the user manual's PDFs
+             embed a subset of it for the terminal's own text, as the OFL
+             allows a document to.
+
+tools/testcard/testcard.c (the DVI parts)
+  Source:    raspberrypi/pico-examples
+             hstx/dvi_out_hstx_encoder/dvi_out_hstx_encoder.c
+             @ 7fe60d6b4027771e45d97f207532c41b1d8c5418
+  License:   BSD-3-Clause
+  Copyright: Copyright (c) 2024 Raspberry Pi (Trading) Ltd.   (the file)
+             Copyright 2020 (c) 2020 Raspberry Pi (Trading) Ltd.
+             (repository LICENSE.TXT)
+  Changes:   the DVI constants, the command lists, the DMA IRQ handler and
+             the HSTX and DMA setup, built per mode (timing, sync polarity)
+             for the Fruit Jam's pins, with the IRQ at the highest priority.
+             The rest of the file is new. The notice is at the top of the
+             file. A bench tool (#16): nothing of it goes into the firmware.
+
+tools/testcard/card_data.h
+  Source:    generated by tools/testcard/gen_card_data.py from
+             tools/sim/fonts/3270-Regular.ttf (above)
+  License:   SIL Open Font License 1.1, alone, as a Modified Version of the
+             Font Software. The license text is tools/sim/fonts/OFL.txt.
+  Copyright: as for tools/sim/fonts/3270-Regular.ttf; the file carries the
+             font's copyright lines.
+  Changes:   the glyphs scaled to 9 x 16, 8 x 19 and 9 x 19 cells and
+             thresholded to one bit per pixel. A bench tool (#16): nothing of
+             it goes into the firmware.
+
+firmware/core/font_3270.c
+  Source:    generated by tools/sim/bake_font.py from 3270-Regular.ttf in the
+             rbanffy/3270font release v3.0.1 (3270_fonts_d916271.zip,
+             sha256 623fb815b16d6c4940b5014a21c5474ef6cddb02c325d03f153341b676b4cffa)
+  License:   SIL Open Font License 1.1, alone, as a Modified Version of the
+             Font Software. The license text is tools/sim/fonts/OFL.txt.
+  Copyright: as for tools/sim/fonts/3270-Regular.ttf; the file carries the
+             font's copyright lines.
+  Changes:   the glyphs the display codes draw (tools/sim/display_codes.py),
+             including the unmapped status-line symbols named in
+             NAMED_GLYPHS, drawn at 16 px in a 9 x 19 cell and thresholded to
+             one bit per pixel, where a part of a glyph that lights no pixel
+             of its own (a diaeresis dot) keeps its most-covered pixels, with
+             a copy fitted to 8 columns and a table of each glyph's lines
+             with ink. None of the private use area's logo glyphs.
+             This goes into the firmware binary, so a binary release carries
+             the OFL text with it.
+
+firmware/src/video.c (the DVI parts)
+  Source:    raspberrypi/pico-examples
+             hstx/dvi_out_hstx_encoder/dvi_out_hstx_encoder.c
+             @ 7fe60d6b4027771e45d97f207532c41b1d8c5418, by way of
+             tools/testcard/testcard.c
+  License:   BSD-3-Clause
+  Copyright: Copyright (c) 2024 Raspberry Pi (Trading) Ltd.   (the file)
+             Copyright 2020 (c) 2020 Raspberry Pi (Trading) Ltd.
+             (repository LICENSE.TXT)
+  Changes:   the DVI constants, the command lists and the HSTX setup, for
+             RGB565 pixels from a 32-line ring, with a clean stop for
+             restarts and mode changes. The rest of the file (the scan-out's
+             DMA chain, the ring, the render IRQ, the stall check and the
+             counters) is new. The notice is at the top of the file. This
+             goes into the firmware binary, so a binary release carries the
+             notice.
+
+firmware/src/video.c (the scan-out's chain of DMA control blocks, design only)
+  Source:    raspberrypi/pico-examples dma/control_blocks/control_blocks.c
+             @ 7fe60d6b4027771e45d97f207532c41b1d8c5418
+  License:   BSD-3-Clause
+  Copyright: Copyright (c) 2020 Raspberry Pi (Trading) Ltd.   (the file)
+  Changes:   the design only: a control channel writes a data channel's
+             registers from a list of blocks, and the data channel chains
+             back. No code is taken from it. Liz4270's blocks set all four of
+             the data channel's alias-0 registers, and its last block points
+             the control channel back at the start of the list (#48).
+
+firmware/core/keymaps/us104.c (the 3270 key placement, design only)
+  Source:    coffeemuse/LizTerm src/LizTerm.App/Keyboard/DefaultKeymap.cs
+             @ 4e4fada84266d9f0f3f3a66f1137114edc73cc6d
+  License:   BSD-3-Clause
+  Copyright: Copyright 2026 by CoffeeMuse   (the file)
+  Changes:   the design only: which PC keys give the 3270 keys (Vista
+             TN3270's table, cross-checked against wc3270, as LizTerm has
+             it). No code is taken from it. Liz4270 makes Left Ctrl Reset and
+             Right Ctrl Enter as keys of their own, drops the Ctrl chords, and
+             adds homes for Dup, Field Mark, Jump, Erase Input, Rule, Copy,
+             Test, CrSel, ExSel and SetUp (#17).
+
+firmware/core/render.h, tools/sim/screen.py (the palette's values)
+  Source:    coffeemuse/LizTerm src/LizTerm.App/Rendering/Palette.cs and
+             CellColors.cs @ 4e4fada84266d9f0f3f3a66f1137114edc73cc6d
+  License:   BSD-3-Clause
+  Copyright: Copyright 2026 by CoffeeMuse   (the files)
+  Changes:   the colour values only: green 50FF50, red FF5050, blue 5C8AFF
+             and neutral white F0F0F0 (#26), pink FF70FF, turquoise 50FFFF
+             and yellow FFFF50 (#70), and the monochrome phosphor 33FF33,
+             with intensified text blended 35% toward white (7AFF7A), as
+             CellColors.cs draws a mono screen (#50). No code is taken from
+             them. The firmware keeps them as RGB565.
+
+firmware/src/audio.c (the output stage's values only)
+  Source:    adafruit/Adafruit_CircuitPython_TLV320 adafruit_tlv320.py
+             @ 78065c89ec6b7feac1661d0f548ff94ae96438d3
+  License:   MIT
+  Copyright: SPDX-FileCopyrightText: 2025 Liz Clark for Adafruit Industries
+             SPDX-FileCopyrightText: 2025 Sam Blenny   (the file)
+  Changes:   the values only: headphone common mode 1.65 V, headphone
+             drivers +6 dB, headphone analog volume -20.1 dB, the DACs
+             routed through the mixers, class-D +12 dB and speaker analog
+             volume -10 dB, as its headphone_output and speaker_output give
+             them to the Fruit Jam (#18). No code is taken from it. The
+             register numbers and encodings are TI's (SLAS671C).
+
+Add an entry for each file as it is imported:
+
+  path/in/this/repo
+    Source:    <repository> <path> @ <commit>
+    License:   <license>
+    Copyright: <the upstream copyright line(s), verbatim>
+    Changes:   none | <what was changed>
+
+
+Hardware
+--------
+
+hardware/board/lib/liz4270.pretty/Murata_786J.kicad_mod, and the Murata_78602
+symbol in hardware/board/lib/liz4270.kicad_sym; the circuit of port 0's coax
+front end (hardware/board/liz4270.kicad_sch, coax sheet)
+  Source:    quaint-systems/coax-tcp, branch interface3, interface3/pcb/
+             (library.pretty/Murata_786J.kicad_mod, and the Murata_78602
+             symbol in pcb.kicad_sch's lib_symbols; the Liz 4174 v1 board)
+             @ 3fdc3da9638b41f512cc8ceec272b5b0972b06ae (tag liz4174-v1)
+  License:   ISC
+  Copyright: Copyright (c) 2019, Andrew Kay   (repository LICENSE)
+             Copyright (c) 2025, Hans Hübner  (interface3/README.md)
+  Changes:   the symbol is copied as it is. The footprint keeps its pad
+             numbers and its pads' positions along y. Each of its six pads
+             is 0.6 mm longer, outward only, for hand-fitting (2.759 mm,
+             centred at x = +/-6.3325 mm; the inner edges stay at
+             +/-4.953 mm). Its fab and silk lines are drawn again to the
+             body Murata gives (9.52 by 9.0 mm, KMP_786JC_E01 p.3), where
+             interface3's outline was smaller than the part, with a filled
+             silk dot by pad 1, outside the body, where it shows with the
+             transformer fitted. Its courtyard is
+             a rectangle around the pads and that body with a 0.25 mm margin
+             (+/-8.0 by +/-4.75 mm), where interface3's left the pads' outer
+             ends outside. Its 3D model is removed: it named a different part,
+             the Pulse PA1323NL, through the obsolete ${KISYS3DMOD}. A
+             description says what it is and what changed. The circuit (the
+             transformer, the two RS-422 driver channels, the 510 ohm bridge
+             and the receiver) is drawn again in a generated schematic, as
+             the Liz 4174's port 0 on Liz4270's pins, with TX_ACTIVE's
+             pull-down and the unused channels held. The circuit descends
+             from lowobservable/coax interface2 (Andrew Kay, ISC). Both
+             notices, each with the ISC permission text, are in
+             firmware/vendor/coax-tcp/LICENSE.
+
+hardware/board/lib/liz4270.pretty/Abracon_AOTA-B201610S3R3-101-T.kicad_mod
+and RPi_C_1005_Wide.kicad_mod (copied by tools/board/import_footprint.py);
+the core regulator's and crystal's circuit and values (mcu sheet); the core
+regulator's layout (tools/board/regulator.py, placed by layout_mcu.py)
+  Source:    Raspberry Pi RP2350A minimal design,
+             https://datasheets.raspberrypi.com/rp2350/Minimal-KiCAD.zip,
+             downloaded Oct 8, 2026 (RPi_C_1005_Wide is its
+             generic_capc1005x50_wide, taken Oct 9, 2026)
+  License:   MIT
+  Copyright: Copyright (c) 2026 Raspberry Pi Ltd   (LICENSE.txt)
+  Changes:   the footprints are copied as they are; the board gives each a
+             3D model of its own (tools/board/board_setup.py), since their
+             embedded models didn't come with them. RPi_C_1005_Wide is the
+             narrower 0402 land the minimal design puts the regulator's CIN
+             and COUT on. The regulator's and the crystal's parts and values
+             are followed in a schematic of our own. The regulator's layout is
+             taken from its board (RPI-RP2350A-MINIMAL_R4-S1), as RP2350
+             datasheet 6.3.8 asks: each part's offset from the VREG_LX pad,
+             the top-layer copper (the zones' outlines and the tracks), the
+             vias, and the In1 cut-out under VREG_LX, written as coordinates
+             in the chip's frame and turned onto our RP2350B's VREG side,
+             whose pin order and pitch are the RP2350A's. The console USB's
+             27 R are 0603 where the minimal design's are 0402, so they sit
+             further apart. The notice that travels with them is
+             LICENSE.txt's:
+
+             Permission is hereby granted, free of charge, to any person
+             obtaining a copy of this software and associated documentation
+             files (the "Software"), to deal in the Software without
+             restriction, including without limitation the rights to use,
+             copy, modify, merge, publish, distribute, sublicense, and/or
+             sell copies of the Software, and to permit persons to whom the
+             Software is furnished to do so, subject to the following
+             conditions:
+
+             The above copyright notice and this permission notice shall be
+             included in all copies or substantial portions of the Software.
+
+             THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+             EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+             OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+             NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+             HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+             WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+             FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+             OTHER DEALINGS IN THE SOFTWARE.
+
+tools/board/make_jlc.py
+  Source:    quaint-systems/coax-tcp, branch interface3,
+             interface3/pcb/jlc/make_jlc.py (the Liz 4174's order script)
+             @ 3fdc3da9638b41f512cc8ceec272b5b0972b06ae (tag liz4174-v1)
+  License:   ISC
+  Copyright: none in the file, which CoffeeMuse wrote there on Sept 26,
+             2026; the repository's LICENSE is ISC, Copyright (c) 2019,
+             Andrew Kay
+  Changes:   adapted for this board: the parts come from the schematic's
+             fields instead of a parts.csv, with T1 hand-fitted (HAND); four
+             copper layers; ROTATION_FIX carries the Liz 4174's 270 degrees
+             for the SOIC-16s, now U3 and U4; --check compares a fresh run
+             with the committed files.
+
+hardware/case/labels.scad (the text on the case)
+  Source:    the glyphs of tools/sim/fonts/3270-Regular.ttf (above), which
+             OpenSCAD draws into the case's labels and name (#134)
+  License:   the font is under the SIL Open Font License 1.1; the case is
+             CERN-OHL-P v2. The STLs carry the glyphs' outlines as geometry,
+             not the font software.
+  Copyright: as for tools/sim/fonts/3270-Regular.ttf
+  Changes:   none to the font; the outlines are thickened 0.15 mm a side so
+             they print at a 0.4 mm nozzle.
+
+Reference only (nothing copied)
+  Adafruit Fruit Jam (CC BY-SA): the pin map, the hub, DDC and DAC wiring,
+  and what its power path lacks were read from its design. No sheets,
+  symbols, footprints or geometry are copied.
+
+  Texas Instruments datasheets SLAS671C (TLV320DAC3100) and SLVSBC5D
+  (TPD13S523): the source of the two symbols' pin tables, which
+  tools/board/make_library.py draws.
+
+  Raspberry Pi 3-pin Debug Connector Specification (RP-003139-SP): the SWD
+  connector's pinout and its 100 ohm series resistors at the target.
+
+  C&K PTS645 Series datasheet (B-136 to B-139, Apr 21): the holes of
+  hardware/board/lib/liz4270.pretty/SW_CK_PTS645V_Angled.kicad_mod, a
+  footprint of our own drawn from its PCB layout for termination V, with the
+  frame's legs as pad SH. Its 3D model is KiCad's stock PTS645Vx39 body,
+  named by path and not copied.
+
+  IBM 3174/3274 Control Unit to Device Product Attachment Information
+  (October 1986; bitsavers.org, pdf/ibm/3174/): section 1.4.5.4, feature 6
+  (the 3180 Advanced Function feature) and its RDINFO request, from which
+  tools/capture/rdinfo.py and the feature 6 notes in docs/upstream-review.md
+  were written (#112). Facts about the protocol only; no text is copied.
+
+  IBM 3270 Data Stream Programmer's Reference (GA23-0059-07, June 1992;
+  bitsavers.org, pdf/ibm/3174/): the Usable Area and Alphanumeric Partitions
+  query replies, by which tools/capture/rdinfo.py decodes UAQRV and PRTQRY
+  (#112). Facts about the protocol only; no text is copied.
+
+  IBM SNA Management Services Formats (GC31-8302-01, March 1998;
+  bitsavers.org, pdf/ibm/sna/): the Hardware Product Identifier's fields and
+  their character set, cited in docs/upstream-review.md for the plant code
+  RDINFO carries (#112). Facts only; no text is copied.
+
+
+Build dependencies (not copied)
+-------------------------------
+
+firmware/pico-sdk is a git submodule of raspberrypi/pico-sdk at tag 2.3.1,
+BSD-3-Clause, "Copyright 2020 (c) 2020 Raspberry Pi (Trading) Ltd.". Only
+its lib/tinyusb submodule is initialised: TinyUSB, MIT, "Copyright (c) 2018,
+hathach (tinyusb.org) and the other contributors" named in each file.
+
+firmware/Pico-PIO-USB is sekigon-gonnoc/Pico-PIO-USB, a submodule at
+5a37a66dc5d3fbe0ef3cdbeda923a757440f984f: MIT, "Copyright (c) 2021
+sekigon-gonnoc". The firmware links it as TinyUSB's PIO-USB host.
+
+The firmware binary holds code under these notices. SetUp's About pages
+carry them all, each license in full with every copyright line of the code
+the image keeps (#126, #129): the license texts are in LICENSES/, the lines
+in tools/sim/bake_about.py, and tools/sim/about_audit.py checks a build
+against them. As audited from the link map, counting only the objects the
+image keeps some of, and ninja's dependency records:
+
+- pico-sdk (and pico-examples' DVI code in src/video.c): BSD-3-Clause, with
+  these lines:
+    Copyright 2020 (c) 2020 Raspberry Pi (Trading) Ltd.
+    Copyright (c) 2020 Raspberry Pi (Trading) Ltd.
+    Copyright (c) 2021 Raspberry Pi (Trading) Ltd.
+    Copyright (c) 2023 Raspberry Pi (Trading) Ltd.
+    Copyright (c) 2024 Raspberry Pi (Trading) Ltd.
+    Copyright (c) 2024 Raspberry Pi Ltd.
+    Copyright (c) 2025 Raspberry Pi (Trading) Ltd.
+    Copyright (c) 2026 Raspberry Pi (Trading) Ltd.
+    Copyright (c) 2019 Keith Packard
+    Copyright (c) 2024 Stephen Street (stephen@redrocketcomputing.com).
+    Copyright (c) 2025 Dan Halbert for Adafruit Industries
+- TinyUSB, Pico-PIO-USB and some of pico-sdk's files (src/rp2_common/
+  pico_printf/printf.c, where Marco Paland's notice runs over two lines,
+  src/rp2_common/pico_stdio_usb/stdio_usb_descriptors.c, and Raspberry Pi's
+  own TinyUSB ports): MIT, with these lines:
+    Copyright (c) 2018, hathach (tinyusb.org)
+    Copyright (c) 2019 Ha Thach (tinyusb.org)
+    Copyright (c) 2021 Ha Thach (tinyusb.org)
+    Copyright (c) 2021 Ha Thach (tinyusb.org) for Double Buffered
+    Copyright (c) 2021, Ha Thach (tinyusb.org)
+    Copyright (c) 2022, Ha Thach (tinyusb.org)
+    Copyright (c) 2020 Raspberry Pi (Trading) Ltd.
+    (c) Marco Paland (info@paland.com) 2014-2019, PALANDesign Hannover, Germany
+    Copyright (c) 2019 Damien P. George
+    Copyright (c) 2020 Reinhard Panhuber - rework to unmasked pointers
+    Copyright (c) 2021 sekigon-gonnoc
+- newlib: below.
+- libgcc: GPL-3.0 with the GCC Runtime Library Exception, which needs no
+  notice. GCC's and libstdc++'s headers carry the same exception, and
+  libstdc++'s pstl/pstl_config.h the LLVM exception to Apache-2.0, which
+  needs none either.
+
+newlib 4.6.0 is the C library the Arm GNU Toolchain 15.3.rel1 links
+(libg.a; arm-none-eabi/include/_newlib_version.h). Its notices were read
+from the release newlib-4.6.0.20260123.tar.gz (sourceware.org/pub/newlib/,
+sha512 ffa16d6465c0b429...), each linked object's source with the Arm
+machine directory's taking precedence, and the files each includes; Doug
+Lea's public-domain malloc (_mallocr.c) and Linaro's memcpy-armv7a.S (for
+A-profile cores, not built for this one) need none. Of newlib's headers the
+firmware's own objects include, stdio.h's and sys/time.h's inline code
+carries the Berkeley notices below; the other notices there cover
+declarations, types and macros only, no code (about_audit.py's
+NEWLIB_HEADERS and NEWLIB_DECLARATIONS). The firmware links 70 of its
+objects, and the image keeps code of 23 (#129); --gc-sections drops the
+other 47 whole, among them the time-zone, scanf, locale and environment code
+behind pico-sdk's pico_util/datetime.c. The 23 are under these notices:
+
+- Red Hat's BSD License (LICENSES/LicenseRef-newlib-RedHat.txt): calloc,
+  callocr, errno, freer, impure, lock, malloc, mallocr, memcmp, memset,
+  mlock, reent, sbrkr, strlen-stub, strtok
+    Copyright (c) 1994-2009  Red Hat, Inc. All rights reserved.
+- Berkeley License (LICENSES/LicenseRef-newlib-UCB.txt): findfp
+    Copyright (c) 1990 The Regents of the University of California.
+    All rights reserved.
+- BSD 3-Clause License, Berkeley's (LICENSES/LicenseRef-newlib-UCB-BSD.txt):
+  ctype_, strtok_r, strtol, strtoul
+    Copyright (c) 1982, 1986, 1993 The Regents of the University of
+      California.
+    Copyright (c) 1988 Regents of the University of California.
+    Copyright (c) 1989 The Regents of the University of California.
+    Copyright (c) 1990 Regents of the University of California.
+    Copyright (c) 1990 The Regents of the University of California.
+    All rights reserved.
+- BSD 3-Clause License, Arm's (LICENSES/LicenseRef-newlib-ARM.txt): memcpy,
+  strcmp, strlen-stub (memcpy's and strcmp's prologues and epilogues are
+  arm_asm.h's macros, under its 2009 line)
+    Copyright (c) 2008-2015 ARM Ltd
+    Copyright (c) 2009 ARM Ltd
+    Copyright (c) 2012-2014 ARM Ltd
+    Copyright (c) 2013 ARM Ltd
+    Copyright (c) 2013-2015 ARM Ltd
+    All rights reserved.
+- STMicroelectronics License (LICENSES/LicenseRef-newlib-STMicro.txt): sysconf
+    Copyright 2020, STMicroelectronics
+    All rights reserved.
+
+
+Run-time dependencies (not copied)
+----------------------------------
+
+tools/capture/ imports pycoax 0.11.2 and oec master (hanshuebner/oec-tcp)
+at run time and copies no code from them. It reuses oec's serial read fix by
+importing it (oec/__main__.py, _read_through_the_descriptor, written by Hans
+Hübner in oec master), and the keymap cross-check imports oec's keymaps. Both
+are ISC; the repository notice is "Copyright (c) 2019, Andrew Kay". The display code ranges in coaxlog.to_display (blank, digits, a-z, A-Z)
+are facts about the 3483-V character set, as photographed in
+coax-tcp/protocol/character-map.jpg.
+
+tools/sim/ imports the same pycoax 0.11.2 and oec master at run time, and
+sliplib 0.6.2 (MIT, "Copyright (c) 2015 Ruud de Jong"; pycoax already depends
+on it). It copies no code from them. iface2.py answers oec as current
+interface2 firmware does: the message format (length, payload and trailer;
+RESET, the features query, and TRANSMIT_RECEIVE with its repeat count) is
+implemented from what pycoax's serial_interface.py sends and what
+coax-tcp interface2/firmware/src/interface.cpp answers, with no code taken
+from either. The display code table in tools/sim/display_codes.py is
+transcribed from our own photographs of the 3483-V
+(captures/photos-20261003/); a test compares it with oec's CHAR_MAP
+(oec/display.py) as a cross-check.
+Its keymap tests and keymap_doc.py also feed the translator's output to oec's
+Keyboard and keymap_ibm_typewriter (oec master
+@ 3c5e812f6d2c0321e6c443dd4ed9590b7611c58a) as a cross-check; the scan codes
+themselves come from the captures.
+
+tools/sim/rig.py drives the bench through pyserial 3.5 (BSD-3-Clause,
+Chris Liechti), as pycoax does, and copies no code from it.
+
+The PNG renderer in tools/sim/screen.py imports Pillow (MIT-CMU, the SPDX
+name for the historical PIL licence, as Pillow 12 declares it).
+tools/sim/subset_font.py imports fontTools (MIT); it only rebuilds the font
+subset and isn't needed to run anything.
+tools/sim/bake_font.py imports fontTools and Pillow; it only rebuilds
+firmware/core/font_3270.c.
+
+
+Expected sources
+----------------
+
+- The command set, response formats and display character tables from
+  pycoax, and the 3483-V keymap and status line layout from oec.
+  ISC. "Copyright (c) 2019, Andrew Kay"

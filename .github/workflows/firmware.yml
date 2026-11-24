@@ -1,0 +1,85 @@
+# Copyright (c) 2026, CoffeeMuse
+# SPDX-License-Identifier: ISC
+
+name: firmware
+
+# Builds the Liz4270 UF2 for ready pull requests that change the firmware
+# or this workflow. It can also run manually from the Actions tab.
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review]
+    paths:
+      - firmware/**
+      - .github/workflows/firmware.yml
+  workflow_dispatch:
+
+concurrency:
+  group: firmware-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  ARM_TOOLCHAIN: arm-gnu-toolchain-15.3.rel1-x86_64-arm-none-eabi
+  ARM_TOOLCHAIN_URL: https://gitlab.arm.com/api/v4/projects/tooling%2Fgnu-toolchains-for-arm/packages/generic/gnu-toolchain/15.3.rel1
+  ARM_TOOLCHAIN_SHA256: 563bebb2b97d53382b956d6ee1fe61e2cae26699901417234a37df505ef9b5fa
+
+jobs:
+  build:
+    if: github.event_name == 'workflow_dispatch' || !github.event.pull_request.draft
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch pico-sdk, TinyUSB and Pico-PIO-USB
+        run: |
+          git submodule update --init --depth 1 firmware/pico-sdk
+          git -C firmware/pico-sdk submodule update --init --depth 1 lib/tinyusb
+          git submodule update --init --depth 1 firmware/Pico-PIO-USB
+
+      - name: Cache the Arm toolchain
+        id: toolchain
+        uses: actions/cache@v4
+        with:
+          path: ~/arm-toolchain
+          key: ${{ env.ARM_TOOLCHAIN }}
+
+      - name: Download the Arm toolchain
+        if: steps.toolchain.outputs.cache-hit != 'true'
+        run: |
+          curl -sSfL -o "$RUNNER_TEMP/toolchain.tar.xz" "$ARM_TOOLCHAIN_URL/$ARM_TOOLCHAIN.tar.xz"
+          echo "$ARM_TOOLCHAIN_SHA256  $RUNNER_TEMP/toolchain.tar.xz" | sha256sum -c -
+          mkdir -p ~/arm-toolchain
+          tar -xJf "$RUNNER_TEMP/toolchain.tar.xz" -C ~/arm-toolchain --strip-components=1
+
+      - name: Set up the tools
+        run: |
+          echo "$HOME/arm-toolchain/bin" >> "$GITHUB_PATH"
+          # The SDK builds picotool once into this directory and reuses it.
+          echo "PICOTOOL_FETCH_FROM_GIT_PATH=$HOME/picotool" >> "$GITHUB_ENV"
+          command -v ninja || { sudo apt-get update && sudo apt-get install -y ninja-build; }
+
+      - name: Cache picotool
+        uses: actions/cache@v4
+        with:
+          path: ~/picotool
+          key: picotool-${{ hashFiles('firmware/pico-sdk/pico_sdk_version.cmake') }}
+
+      - name: Build
+        working-directory: firmware
+        run: |
+          arm-none-eabi-gcc --version | head -1
+          mkdir -p ../uf2
+          cmake --preset liz4270
+          cmake --build --preset liz4270
+          cp build/liz4270/liz4270.uf2 ../uf2/liz4270.uf2
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: liz4270-uf2
+          path: uf2/*.uf2
+          retention-days: 7
+          if-no-files-found: error

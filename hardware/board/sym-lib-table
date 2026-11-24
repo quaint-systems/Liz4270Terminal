@@ -1,0 +1,4 @@
+(sym_lib_table
+	(version 7)
+	(lib (name "liz4270") (type "KiCad") (uri "${KIPRJMOD}/lib/liz4270.kicad_sym") (options "") (descr "Liz4270's own symbols"))
+)

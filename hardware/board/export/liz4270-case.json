@@ -1,0 +1,112 @@
+{
+  "edge": {
+    "J3": {
+      "fpid": "Connector_Coaxial:BNC_Amphenol_B6252HB-NPP3G-50_Horizontal",
+      "rot": 180.0,
+      "x": 10.0,
+      "y": 67.3
+    },
+    "J4": {
+      "fpid": "Connector_Video:HDMI_A_Molex_208658-1001_Horizontal",
+      "rot": -90.0,
+      "x": 71.0,
+      "y": 72.97
+    },
+    "J5": {
+      "fpid": "Connector_USB:USB_A_Wuerth_61400826021_Horizontal_Stacked",
+      "rot": 0.0,
+      "x": 46.0,
+      "y": 64.39
+    },
+    "J6": {
+      "fpid": "Connector_USB:USB_C_Receptacle_HRO_TYPE-C-31-M-12",
+      "rot": 0.0,
+      "x": 30.0,
+      "y": 76.35
+    },
+    "SW1": {
+      "fpid": "liz4270:SW_CK_PTS645V_Angled",
+      "rot": 180.0,
+      "x": 87.25,
+      "y": 76.15
+    },
+    "SW2": {
+      "fpid": "liz4270:SW_CK_PTS645V_Angled",
+      "rot": 180.0,
+      "x": 96.85,
+      "y": 76.15
+    }
+  },
+  "holes": {
+    "H1": {
+      "plated": true,
+      "x": 4.0,
+      "y": 4.0
+    },
+    "H2": {
+      "plated": true,
+      "x": 96.0,
+      "y": 4.0
+    },
+    "H3": {
+      "plated": true,
+      "x": 96.0,
+      "y": 66.0
+    },
+    "H4": {
+      "plated": false,
+      "x": 4.0,
+      "y": 46.0
+    }
+  },
+  "inside": {
+    "D1": {
+      "x": 32.0,
+      "y": 24.3
+    },
+    "D5": {
+      "x": 29.25,
+      "y": 46.5
+    },
+    "J1": {
+      "x": 32.4,
+      "y": 19.0
+    },
+    "J7": {
+      "x": 92.0,
+      "y": 12.0
+    }
+  },
+  "labels": [
+    [
+      "COAX",
+      10.0
+    ],
+    [
+      "USB-C 5V",
+      30.0
+    ],
+    [
+      "USB",
+      49.5
+    ],
+    [
+      "HDMI",
+      71.0
+    ],
+    [
+      "BOOT",
+      85.0
+    ],
+    [
+      "RESET",
+      94.6
+    ]
+  ],
+  "origin": "the outline's top-left corner; x right, y down (towards the edge)",
+  "outline": {
+    "corner": 1.0,
+    "height": 80.0,
+    "width": 100.0
+  }
+}

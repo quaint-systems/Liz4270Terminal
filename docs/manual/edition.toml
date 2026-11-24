@@ -1,0 +1,8 @@
+# Copyright (c) 2026, CoffeeMuse
+# SPDX-License-Identifier: CC-BY-4.0
+
+# The manual's declared edition (#136). Change it only to declare a new one: a release build prints it
+# on the cover as LZ01-4270-NN, and refuses it once anything else under docs/manual/ has changed since.
+number = ""     # "00" for the first edition, then "01", ...; empty until one is declared
+name = ""       # as page ii prints it: "First Edition (October 2026)"
+firmware = ""   # the first firmware version this edition describes
