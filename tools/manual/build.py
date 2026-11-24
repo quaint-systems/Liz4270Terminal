@@ -10,7 +10,7 @@
 
 It draws the terminal's screens through the firmware's renderer and walks SetUp for its rows, then runs
 Typst once a paper, every paper at once. Both papers share one text area, so they break their pages alike;
-built together, they're checked. docs/superpowers/specs/2026-10-14-user-manual-design.md is the design.
+built together, they're checked.
 """
 
 import argparse

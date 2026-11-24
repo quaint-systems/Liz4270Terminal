@@ -29,7 +29,7 @@
 
 = Introducing Liz4270 <introducing>
 
-// CLAUDE.md, "What the device is": an IBM 3483-V in CUT mode, drawn over DVI, with a USB keyboard.
+// What the device is: an IBM 3483-V in CUT mode, drawn over DVI, with a USB keyboard.
 Liz4270#ix[Liz4270] is a display station#ix[display station] for IBM 3270#ix[3270] systems. It attaches to a
 3270 controller by coax, shows the host's screens on an HDMI monitor, and takes a USB keyboard. To the
 controller, it is an IBM 3483-V display station in CUT mode#ix[3483-V].
@@ -47,8 +47,8 @@ nothing to set up. @fig-system shows where it sits.
 
 == What you need <what-you-need>
 
-// CLAUDE.md, "Test rig": a Liz 4174 runs interface3's firmware under oec, one oec per coax port, and oec reaches
-// the host over TN3270; docs/upstream-review.md: oec is the controller the captures record.
+// The test rig: a Liz 4174 runs interface3's firmware under oec, one oec per coax port, and oec reaches
+// the host over TN3270.
 - A 3270 controller with a coax#ix[coax] port for a CUT display station. That is either:
   - an IBM~3174 Establishment Controller;#ix[3174] or
   - oec#ix[oec], open-source software that does a controller's work on a computer and reaches the host over

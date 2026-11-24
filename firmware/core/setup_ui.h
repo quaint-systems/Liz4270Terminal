@@ -5,8 +5,7 @@
 // Setup's three pages, as photographed (captures/photos-20261006/setup-*.jpg,
 // photos-20261011/setup-*.jpg), and a fourth page for monochrome, which the
 // 3483-V lacks, with the keys that walk them, as probed on Oct 11
-// (captures/README.md). Spec:
-// docs/superpowers/specs/2026-10-11-setup-screen-design.md. And offline
+// (captures/README.md). And offline
 // setup's way in, its menu and Customization's first page (#110),
 // photographed Oct 12 (captures/photos-20261012/offline-setup-*.jpg). And
 // About Liz4270 (#126), Liz4270's own: F10 from Online Setup and Utility, the

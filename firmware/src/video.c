@@ -4,8 +4,6 @@
 // DVI on the Fruit Jam (#26): HSTX scan-out from a ring of 32 lines, which a
 // lowest-priority IRQ on core 0 draws just ahead of the beam with render.c,
 // or with splash.c from power-on until the controller draws (#53).
-// Specs: docs/superpowers/specs/2026-10-04-fruit-jam-screen-design.md,
-// "Video", and 2026-10-04-scan-out-dma-chain-design.md (#48).
 //
 // The scan-out runs itself. DMA channel D sends one block at a time to the
 // HSTX FIFO, and channel C loads D from a fixed list of control blocks;

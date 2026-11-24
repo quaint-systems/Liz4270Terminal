@@ -1,8 +1,7 @@
 # Copyright (c) 2026, CoffeeMuse
 # SPDX-License-Identifier: ISC
 
-"""The keyboard translator (firmware/core/keyboard.c), against the spec's rules
-(docs/superpowers/specs/2026-10-05-usb-keyboard-map-design.md, "The translator").
+"""The keyboard translator (firmware/core/keyboard.c), against its rules.
 The keymap is us104 unless a test builds its own."""
 
 import random

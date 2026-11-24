@@ -3,7 +3,7 @@
 
 // Liz4270 USB host (#14): TinyUSB's host stack on Pico-PIO-USB, into
 // the on-board hub's upstream port on GPIO 1 (D+) and 2 (D-), with PIO0 to
-// itself. Spec: docs/superpowers/specs/2026-10-05-usb-host-design.md.
+// itself.
 //
 // Everything here runs on core 0. Pico-PIO-USB sends and receives each packet
 // with the CPU waiting on the PIO, so on core 1 it would break the coax link's

@@ -1,7 +1,7 @@
 // Copyright (c) 2026, CoffeeMuse
 // SPDX-License-Identifier: CERN-OHL-P-2.0
 
-// The case's constants and outlines (docs/superpowers/specs/2026-10-14-case-design.md). Lengths in mm, in the
+// The case's constants and outlines. Lengths in mm, in the
 // frame of the board's STL export: x to the right, y up (the board's y negated), z up from the board's underside.
 // Included by each part's file, never twice in one scope.
 

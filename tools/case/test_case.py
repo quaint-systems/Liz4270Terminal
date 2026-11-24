@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: ISC
 
 """The case against the assembled board's own 3D model and the plugs' bodies, each of its features by probing, and
-its committed STLs (#134; docs/superpowers/specs/2026-10-14-case-design.md, "Tests").
+its committed STLs (#134).
 
 A probe is a small body placed where a feature should be solid or clear, and scad.overlap() measures the volume it
 shares with a part. Under TOUCH counts as faces touching, not an overlap: the board rests on the standoffs and the

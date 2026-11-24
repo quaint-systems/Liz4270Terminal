@@ -5,12 +5,8 @@
 //
 // Plain C11, like the rest of the core, so tools/sim draws the same pixels
 // through ctypes. video.c calls render_frame_begin once a frame and
-// render_line for each of its 480 lines, in any order. The spec is
-// docs/superpowers/specs/2026-10-04-fruit-jam-screen-design.md ("Renderer",
-// "What's drawn"), for EAB 2026-10-07-eab-render-design.md, and for the
-// colour mapping and monochrome 2026-10-10-monochrome-colour-mapping-design.md,
-// and for the Rule key's ruler 2026-10-10-rule-line-design.md;
-// tools/sim/screen.py's render() is the reference.
+// render_line for each of its 480 lines, in any order. tools/sim/screen.py's
+// render() is the reference.
 
 #ifndef LIZ_RENDER_H
 #define LIZ_RENDER_H
